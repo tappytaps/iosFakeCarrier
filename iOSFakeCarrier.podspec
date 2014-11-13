@@ -16,14 +16,17 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "iOSFakeCarrier"
-  s.version      = "1.0"
+  s.version      = "0.9"
   s.summary      = "Automatically set carrier info based on locales and other custom settings - usefull for generating nice screenshots"
 
   s.description  = <<-DESC
-                   Small class, that let you change standard iOS status bar information. Supposed to use when creating screenshots
-                   into App Store - to have nice localized carrier info, time and other status bar information based on your needs.
+                   Small class, that let you change standard iOS status bar information. Works in both simulator and device. 
+                   Supposed to be used when creating screenshots
+                   for App Store - to have nice localized carrier info, time and other status bar information based on your needs.
 
-                   Just add this pod to your project and define CREATING_SCREENSHOTS to 1.
+                   We recommend to create different target for creating screenshots, where you will include this POD. Don't forgot to
+                   remove this package from production build! It is using private API, so that it will not pass App Store review (it also
+                   doesn't have sense to be included in production builds)/
                    DESC
 
   s.homepage     = "https://github.com/sarsonj/iosFakeCarrier.git"
@@ -76,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/sarsonj/iosFakeCarrier.git"}
+  s.source       = { :git => "https://github.com/sarsonj/iosFakeCarrier.git", :tag =>"0.9"}
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -102,7 +105,7 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  s.resources = "*.strings"
+  s.resources = "iosFakeCarrier/Resources/**/*.strings"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 

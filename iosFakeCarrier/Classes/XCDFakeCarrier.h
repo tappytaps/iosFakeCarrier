@@ -10,10 +10,10 @@
 
 // status bar customizations
 /* 0 to 5 */
-+ (void)setCellStrength:(NSInteger)cellStrength;
++ (void)setCellStrength:(int)cellStrength;
 
 /* 0 to 3 */
-+ (void)setWiFiStrength:(NSInteger)wifiStrength;
++ (void)setWiFiStrength:(int)wifiStrength;
 
 /*
  dataNetworkType:
@@ -27,7 +27,7 @@
  7 - 1x
  8 - Blank
  */
-+ (void)setNetworkType:(NSInteger)networkType;
++ (void)setNetworkType:(int)networkType;
 
 /*
  itemIsEnabled:

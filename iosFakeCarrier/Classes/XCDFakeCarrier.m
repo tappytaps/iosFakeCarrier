@@ -5,6 +5,9 @@
 // Adapted from https://gist.github.com/0xced/3035167 to allow modifying signal strength and other symbols
 // Adapted from https://github.com/ksuther/StatusBarCustomization.git
 
+
+#warning Fake carrier enabled - disable it from production build!
+
 static const char *fakeCarrier;
 static const char *fakeTime;
 static int fakeCellSignalStrength = -1;
@@ -49,19 +52,19 @@ typedef struct {
 
 
 
-+ (void)setCellStrength:(NSInteger)cellStrength
++ (void)setCellStrength:(int)cellStrength
 {
     fakeCellSignalStrength = cellStrength;
     [self updateStatusbarView];
 }
 
-+ (void)setWiFiStrength:(NSInteger)wifiStrength
++ (void)setWiFiStrength:(int)wifiStrength
 {
     fakeWifiStrength = wifiStrength;
     [self updateStatusbarView];
 }
 
-+ (void)setNetworkType:(NSInteger)networkType
++ (void)setNetworkType:(int)networkType
 {
     fakeDataNetwork = networkType;
     [self updateStatusbarView];
@@ -74,12 +77,12 @@ typedef struct {
 }
 
 +(void)setFakeCarrier:(NSString*) newCarrier {
-    fakeCarrier = [newCarrier cString];
+    fakeCarrier = [newCarrier UTF8String];
     [self updateStatusbarView];
 }
 
 +(void)setFakeTime:(NSString*) newFakeTime {
-    fakeTime = [newFakeTime cString];
+    fakeTime = [newFakeTime UTF8String];
     [self updateStatusbarView];
 }
 
