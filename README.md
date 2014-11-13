@@ -64,7 +64,7 @@ You can use additional methods to fine tune your status bar. There are methods l
 	 20 - microphone
 	 21 - VPN
 	 22 - forwarded call?
-	 23 - spinning activity indicator	+(void)setFakeCarrier:(NSString*) newCarrier;
+	 23 - spinning activity indicator	
 
 	 24 - square
 	 */
@@ -73,11 +73,12 @@ You can use additional methods to fine tune your status bar. There are methods l
 	/*
 	 Sets carrier to specific string 
 	 */
+	+ (void)setFakeCarrier:(NSString*) newCarrier;
 
 	/*
 	 Sets time info to specific string
 	 */
-	+(void)setFakeTime:(NSString*) newFakeTime;
+   + (void)setFakeTime:(NSString*) newFakeTime;
 
 
 ```
