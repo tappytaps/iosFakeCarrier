@@ -14,6 +14,9 @@ static int fakeCellSignalStrength = -1;
 static int fakeWifiStrength = 3; // default to full strength
 static int fakeDataNetwork = 5; // default to Wi-Fi
 
+static NSString* fakeCarrierS;
+static NSString* fakeTimeS;
+
 
 #import "XCDFakeCarrier.h"
 #import <objc/runtime.h>
@@ -22,22 +25,22 @@ static NSMutableDictionary *fakeItemIsEnabled;
 
 
 typedef struct {
-	char itemIsEnabled[25];
-	char timeString[64];
-	int gsmSignalStrengthRaw;
-	int gsmSignalStrengthBars;
-	char serviceString[100];
-	BOOL serviceCrossfadeString[100];
-	BOOL serviceImages[2][100];
-	BOOL operatorDirectory[1024];
-	unsigned int serviceContentType;
-	int wifiSignalStrengthRaw;
-	int wifiSignalStrengthBars;
-	unsigned int dataNetworkType;
+    char itemIsEnabled[25];
+    char timeString[64];
+    int gsmSignalStrengthRaw;
+    int gsmSignalStrengthBars;
+    char serviceString[100];
+    BOOL serviceCrossfadeString[100];
+    BOOL serviceImages[2][100];
+    BOOL operatorDirectory[1024];
+    unsigned int serviceContentType;
+    int wifiSignalStrengthRaw;
+    int wifiSignalStrengthBars;
+    unsigned int dataNetworkType;
     int batteryCapacity;
     unsigned int batteryState;
     BOOL batteryDetailString[150];
-	// ...
+    // ...
 } StatusBarData;
 
 @implementation XCDFakeCarrier
@@ -64,7 +67,7 @@ typedef struct {
     }
     return bundle;
 }
-    
+
 
 + (void)setCellStrength:(int)cellStrength
 {
@@ -91,12 +94,12 @@ typedef struct {
 }
 
 +(void)setFakeCarrier:(NSString*) newCarrier {
-    fakeCarrier = [newCarrier UTF8String];
+    fakeCarrierS = newCarrier;
     [self updateStatusbarView];
 }
 
 +(void)setFakeTime:(NSString*) newFakeTime {
-    fakeTime = [newFakeTime UTF8String];
+    fakeTimeS = newFakeTime;
     [self updateStatusbarView];
 }
 
@@ -106,51 +109,52 @@ typedef struct {
 
 + (void)load
 {
-	fakeCarrier = "Carrier";
-	fakeTime = "10:21 AM";
-	
+    fakeCarrier = "Carrier";
+    fakeTime = "10:21 AM";
+    
     fakeItemIsEnabled = [[NSMutableDictionary alloc] init];
     
-	BOOL __block success = NO;
-	Class UIStatusBarComposedData = objc_getClass("UIStatusBarComposedData");
-	SEL selector = NSSelectorFromString(@"rawData");
-	Method method = class_getInstanceMethod(UIStatusBarComposedData, selector);
-	NSDictionary *statusBarDataInfo = @{ @"^{?=[25c][64c]ii[100c]": @"fake_rawData",
-										 // use B instead of c for 64-bit
+    BOOL __block success = NO;
+    Class UIStatusBarComposedData = objc_getClass("UIStatusBarComposedData");
+    SEL selector = NSSelectorFromString(@"rawData");
+    Method method = class_getInstanceMethod(UIStatusBarComposedData, selector);
+    NSDictionary *statusBarDataInfo = @{ @"^{?=[25c][64c]ii[100c]": @"fake_rawData",
+                                         // use B instead of c for 64-bit
                                          @"^{?=[25B][64c]ii[100c]": @"fake_rawData" };
-	[statusBarDataInfo enumerateKeysAndObjectsUsingBlock:^(NSString *statusBarDataTypeEncoding, NSString *fakeSelectorString, BOOL *stop) {
-		if (method && [@(method_getTypeEncoding(method)) hasPrefix:statusBarDataTypeEncoding])
-		{
-			SEL fakeSelector = NSSelectorFromString(fakeSelectorString);
-			Method fakeMethod = class_getInstanceMethod(self, fakeSelector);
-			success = class_addMethod(UIStatusBarComposedData, fakeSelector, method_getImplementation(fakeMethod), method_getTypeEncoding(fakeMethod));
-			fakeMethod = class_getInstanceMethod(UIStatusBarComposedData, fakeSelector);
-			method_exchangeImplementations(method, fakeMethod);
-		}
-	}];
-	
-	if (success)
-		NSLog(@"Fake carrier enabled - don't forgot to disable it in production build!");
-	else
-		NSLog(@"XCDFakeCarrier failed to initialize");
+    [statusBarDataInfo enumerateKeysAndObjectsUsingBlock:^(NSString *statusBarDataTypeEncoding, NSString *fakeSelectorString, BOOL *stop) {
+        if (method && [@(method_getTypeEncoding(method)) hasPrefix:statusBarDataTypeEncoding])
+        {
+            SEL fakeSelector = NSSelectorFromString(fakeSelectorString);
+            Method fakeMethod = class_getInstanceMethod(self, fakeSelector);
+            success = class_addMethod(UIStatusBarComposedData, fakeSelector, method_getImplementation(fakeMethod), method_getTypeEncoding(fakeMethod));
+            fakeMethod = class_getInstanceMethod(UIStatusBarComposedData, fakeSelector);
+            method_exchangeImplementations(method, fakeMethod);
+        }
+    }];
+    
+    if (success)
+        NSLog(@"Fake carrier enabled - don't forgot to disable it in production build!");
+    else
+        NSLog(@"XCDFakeCarrier failed to initialize");
 }
 
 - (StatusBarData *)fake_rawData
 {
-	StatusBarData *rawData = [self fake_rawData];
-	
-	if (fakeCarrier) {
-		strlcpy(rawData->serviceString, fakeCarrier, sizeof(rawData->serviceString));
-	}
-	
-	if (fakeTime) {
-		strlcpy(rawData->timeString, fakeTime, sizeof(rawData->timeString));
-	}
-	
-	if (fakeCellSignalStrength > -1) {
-		rawData->itemIsEnabled[3] = 1;
-		rawData->gsmSignalStrengthBars = fakeCellSignalStrength;
-	} else {
+    StatusBarData *rawData = [self fake_rawData];
+    fakeCarrier = [fakeCarrierS UTF8String];
+    if (fakeCarrier) {
+        strlcpy(rawData->serviceString, fakeCarrier, sizeof(rawData->serviceString));
+    }
+    
+    fakeTime = [fakeTimeS UTF8String];
+    if (fakeTime) {
+        strlcpy(rawData->timeString, fakeTime, sizeof(rawData->timeString));
+    }
+    
+    if (fakeCellSignalStrength > -1) {
+        rawData->itemIsEnabled[3] = 1;
+        rawData->gsmSignalStrengthBars = fakeCellSignalStrength;
+    } else {
         rawData->itemIsEnabled[3] = 0;
     }
     
@@ -166,8 +170,8 @@ typedef struct {
     rawData->batteryCapacity = 100; // Full battery
     
     memset(rawData->batteryDetailString, 0, sizeof(rawData->batteryDetailString)); // Hide battery state strings such as "Not Charging"
-	
-	return rawData;
+    
+    return rawData;
 }
 
 @end
