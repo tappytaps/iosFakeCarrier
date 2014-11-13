@@ -94,3 +94,5 @@ will be supported in the new release.
 ## Credits
 The core of the status bar code was used from https://gist.github.com/0xced/3035167 Copyright (c) 2012-2013 Cédric Luthi / @0xced. I also 
 used mofied version with additional methods from https://github.com/ksuther/StatusBarCustomization.git and fixed it to work with latest iOS.
+
+More info also on my blog post: http://www.tappytaps.com/blog/developer/nice-status-bar-for-app-store-screenshots/
