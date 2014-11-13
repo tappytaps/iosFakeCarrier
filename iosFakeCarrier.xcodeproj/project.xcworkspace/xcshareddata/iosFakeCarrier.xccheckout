@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2A1B9E9C-7CA5-4D8F-89C2-58F368BB3E60</string>
+	<key>IDESourceControlProjectName</key>
+	<string>iosFakeCarrier</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>19AB428741D39FEE7ABF2AE3BF266B0E50A109DE</key>
+		<string>https://github.com/sarsonj/iosFakeCarrier.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>iosFakeCarrier.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>19AB428741D39FEE7ABF2AE3BF266B0E50A109DE</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/sarsonj/iosFakeCarrier.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>19AB428741D39FEE7ABF2AE3BF266B0E50A109DE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>19AB428741D39FEE7ABF2AE3BF266B0E50A109DE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iosFakeCarrier</string>
+		</dict>
+	</array>
+</dict>
+</plist>
