@@ -17,6 +17,7 @@ static int fakeDataNetwork = 5; // default to Wi-Fi
 
 
 #import "XCDFakeCarrier.h"
+#import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
 static NSString* fakeCarrierS;
