@@ -1,4 +1,5 @@
 Pod::Spec.new do |s|
+  s.platform     = "ios"
   s.name         = "iOSFakeCarrier"
   s.version      = "1.0"
   s.summary      = "Automatically set carrier info based on locales and other custom settings - usefull for generating nice screenshots"
@@ -18,4 +19,5 @@ Pod::Spec.new do |s|
   s.source_files  = "iosFakeCarrier/Classes", "Classes/**/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
   s.resource_bundle = { 'iosFakeCarrier' => 'iosFakeCarrier/Resources/*.lproj' }
+  s.requires_arc = true
 end
