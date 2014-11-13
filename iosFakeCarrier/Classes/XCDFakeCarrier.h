@@ -14,7 +14,6 @@
 
 /* 0 to 3 */
 + (void)setWiFiStrength:(int)wifiStrength;
-
 /*
  dataNetworkType:
  0 - GPRS
@@ -52,9 +51,14 @@
  */
 + (void)setEnabled:(BOOL)enabled atIndex:(NSInteger)index;
 
-
+/*
+ Sets carrier to specific string 
+ */
 +(void)setFakeCarrier:(NSString*) newCarrier;
 
+/*
+ Sets time info to specific string
+ */
 +(void)setFakeTime:(NSString*) newFakeTime;
 
 
