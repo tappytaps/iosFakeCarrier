@@ -54,6 +54,9 @@ typedef struct {
     NSDate* dateTime = [calendar dateFromComponents:time];
     [self setFakeTime:[NSDateFormatter localizedStringFromDate:dateTime dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle]];
     [self setFakeCarrier:NSLocalizedStringFromTableInBundle(@"fakeCarrier", @"FakeiOSLocalized", [self bundle], @"")];
+    [self setNetworkType:2];
+    [self setCellStrength:5];
+    
 }
 
 + (NSBundle *)bundle
