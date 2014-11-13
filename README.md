@@ -17,7 +17,7 @@ The easies way is to use CocoaPods - simply install *iOSFakeCarrier* pod into yo
 ```
 
 This will set time in status bar to 13:22 (or 1:22 pm if you are in US). The time is localized - based on your language settings.
-This `setLocalizedStatusBarWithTime` also automtically adds carrier based on language settings - for example in USA it is AT&T, in 
+This `setLocalizedStatusBarWithTime` also automtically adds carrier name based on language settings - for example in USA it is AT&T, in 
 Germany T-Mobile DE and so on. Feel free to create pull request with carrier info for other countries / languages, there is only few 
 of them now.
 
@@ -89,4 +89,4 @@ create different target for screenshot creation or at least `IFDEF` this class.
 
 ## Credits
 The core of the status bar code was used from https://gist.github.com/0xced/3035167 Copyright (c) 2012-2013 Cédric Luthi / @0xced. I also 
-used mofied version with additional methods from https://github.com/ksuther/StatusBarCustomization.git.
+used mofied version with additional methods from https://github.com/ksuther/StatusBarCustomization.git and fixed it to work with latest iOS.
