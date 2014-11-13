@@ -1,7 +1,7 @@
 # iOS Fake Carrier
 The purpose of this small class is to make pefrect status bar for your App Store screenshots. 
 
-## How to use - quick stat
+## How to use - quick start
 The easies way is to use CocoaPods - simply install iOSFakeCarrier pod into your project. Then in `applicationDidFinishLaunching` add this sniplet:
 
 ```objective-c
