@@ -64,7 +64,8 @@ You can use additional methods to fine tune your status bar. There are methods l
 	 20 - microphone
 	 21 - VPN
 	 22 - forwarded call?
-	 23 - spinning activity indicator
+	 23 - spinning activity indicator	+(void)setFakeCarrier:(NSString*) newCarrier;
+
 	 24 - square
 	 */
 	+ (void)setEnabled:(BOOL)enabled atIndex:(NSInteger)index;
@@ -72,7 +73,6 @@ You can use additional methods to fine tune your status bar. There are methods l
 	/*
 	 Sets carrier to specific string 
 	 */
-	+(void)setFakeCarrier:(NSString*) newCarrier;
 
 	/*
 	 Sets time info to specific string
@@ -85,7 +85,11 @@ You can use additional methods to fine tune your status bar. There are methods l
 ## Don't forgot...
 To remove this module from production build. Not only your customers will not be happy with status bar with strange carrier info and
 "frozen" wrong time, but it will also hardly goes through App Store review. We added compilation warning, when this class is used. Ideally, 
-create different target for screenshot creation or at least `IFDEF` this class.
+create different target sdasdfor screenshot creation or at least `IFDEF` this class.
+
+## Carrier info for my country is not included?
+Feel free to add new language to the project and then add fakeCarrier key to FakeiOSLocalized.strings. Then send me pull request new country
+will be supported in the new release.
 
 ## Credits
 The core of the status bar code was used from https://gist.github.com/0xced/3035167 Copyright (c) 2012-2013 Cédric Luthi / @0xced. I also 
