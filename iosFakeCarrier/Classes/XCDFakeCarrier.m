@@ -14,12 +14,14 @@ static int fakeCellSignalStrength = -1;
 static int fakeWifiStrength = 3; // default to full strength
 static int fakeDataNetwork = 5; // default to Wi-Fi
 
-static NSString* fakeCarrierS;
-static NSString* fakeTimeS;
 
 
 #import "XCDFakeCarrier.h"
 #import <objc/runtime.h>
+
+static NSString* fakeCarrierS;
+static NSString* fakeTimeS;
+
 
 static NSMutableDictionary *fakeItemIsEnabled;
 
@@ -119,6 +121,8 @@ typedef struct {
     SEL selector = NSSelectorFromString(@"rawData");
     Method method = class_getInstanceMethod(UIStatusBarComposedData, selector);
     NSDictionary *statusBarDataInfo = @{ @"^{?=[25c][64c]ii[100c]": @"fake_rawData",
+                                         @"^{?=[24c][64c]ii[100c]": @"fake_rawData",
+                                         @"^{?=[23c][64c]ii[100c]": @"fake_rawData",
                                          // use B instead of c for 64-bit
                                          @"^{?=[25B][64c]ii[100c]": @"fake_rawData" };
     [statusBarDataInfo enumerateKeysAndObjectsUsingBlock:^(NSString *statusBarDataTypeEncoding, NSString *fakeSelectorString, BOOL *stop) {
