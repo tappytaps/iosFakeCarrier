@@ -1,8 +1,8 @@
 # iOS Fake Carrier
-This small purpose is to make pefrect status bar for your App Store screenshots. 
+The purpose of this small class is to make pefrect status bar for your App Store screenshots. 
 
 ## How to use - quick stat
-The easies way is to use CocoaPods - simply install iOSFakeCarrier into your project. Then in `applicationDidFinishLaunching` add this sniplet:
+The easies way is to use CocoaPods - simply install iOSFakeCarrier pod into your project. Then in `applicationDidFinishLaunching` add this sniplet:
 
 ```objective-c
 
@@ -80,9 +80,9 @@ You can use additional methods to fine tune your status bar. There are methods l
 ```
 
 ## Don't forgot...
-To remove this module from production build. Not only your customer will not be happy with status bar with strange carrier info and
+To remove this module from production build. Not only your customers will not be happy with status bar with strange carrier info and
 "frozen" wrong time, but it will also hardly goes through App Store review. We added compilation warning, when this class is used. Ideally, 
-create different target for screenshot creation or at least IFDEF this class.
+create different target for screenshot creation or at least `IFDEF` this class.
 
 ## Credits
 The core of the status bar code was used from https://gist.github.com/0xced/3035167 Copyright (c) 2012-2013 Cédric Luthi / @0xced. I also 
