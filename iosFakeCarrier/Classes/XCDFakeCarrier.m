@@ -6,7 +6,7 @@
 // Adapted from https://github.com/ksuther/StatusBarCustomization.git
 
 
-#warning Fake carrier enabled - disable it from production build!
+//#warning Fake carrier enabled - disable it from production build!
 
 static const char *fakeCarrier;
 static const char *fakeTime;

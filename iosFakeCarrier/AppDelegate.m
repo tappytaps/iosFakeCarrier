@@ -20,9 +20,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 //    TSIOSFakeCarrier* fakeCarrier = [[TSIOSFakeCarrier alloc] init];
 //    [fakeCarrier createFakeStatusbar];
-    [XCDFakeCarrier setFakeCarrier:@"Vodafone"];
-    [XCDFakeCarrier setFakeTime:@"9:45"];
-    [XCDFakeCarrier setCellStrength:4];
     NSDateComponents* timeComp = [[NSDateComponents alloc] init];
     timeComp.hour = 9;
     timeComp.minute = 0;
