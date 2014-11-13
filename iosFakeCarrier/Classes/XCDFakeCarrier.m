@@ -47,10 +47,24 @@ typedef struct {
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDate* dateTime = [calendar dateFromComponents:time];
     [self setFakeTime:[NSDateFormatter localizedStringFromDate:dateTime dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle]];
-    [self setFakeCarrier:NSLocalizedStringFromTable(@"fakeCarrier", @"FakeiOSLocalized", @"")];
+    [self setFakeCarrier:NSLocalizedStringFromTableInBundle(@"fakeCarrier", @"FakeiOSLocalized", [self bundle], @"")];
 }
 
-
++ (NSBundle *)bundle
+{
+    NSBundle *bundle;
+    
+    NSURL *bundleUrl = [[NSBundle mainBundle] URLForResource:@"iosFakeCarrier" withExtension:@"bundle"];
+    
+    if (bundleUrl) {
+        // Should be, when using cocoapods
+        bundle = [NSBundle bundleWithURL:bundleUrl];
+    } else {
+        bundle = [NSBundle mainBundle];
+    }
+    return bundle;
+}
+    
 
 + (void)setCellStrength:(int)cellStrength
 {
