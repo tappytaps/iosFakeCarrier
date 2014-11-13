@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/sarsonj/iosFakeCarrier.git", :tag =>"0.9"}
+  s.source       = { :git => "https://github.com/sarsonj/iosFakeCarrier.git"}
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -105,7 +105,10 @@ Pod::Spec.new do |s|
   #
 
   # s.resource  = "icon.png"
-  s.resources = "iosFakeCarrier/Resources/**/*.strings"
+  #s.resources = "iosFakeCarrier/Resources/**/*.strings"
+
+  s.resource_bundle = { 'iosFakeCarrier' => 'iosFakeCarrier/Resources/*.lproj' }
+
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
