@@ -1,11 +1,11 @@
 # iOS Fake Carrier
-The purpose of this small class is to make pefrect status bar for your App Store screenshots. 
+The purpose of this small class is to make a perfect status bar for your App Store screenshots. 
 
 
 ![example](webimages/statusbars.png?raw=true)
 
 ## How to use - quick start
-The easies way is to use CocoaPods - simply install *iOSFakeCarrier* pod into your project. Then in `applicationDidFinishLaunching` add this sniplet:
+The easiest way is to use CocoaPods - simply install *iOSFakeCarrier* pod into your project. Then in `applicationDidFinishLaunching` add this sniplet:
 
 ```objective-c
 
@@ -16,8 +16,8 @@ The easies way is to use CocoaPods - simply install *iOSFakeCarrier* pod into yo
 
 ```
 
-This will set time in status bar to 13:22 (or 1:22 pm if you are in US). The time is localized - based on your language settings.
-This `setLocalizedStatusBarWithTime` also automtically adds carrier name based on language settings - for example in USA it is AT&T, in 
+This will set time in the status bar to 13:22 (or 1:22 pm if you are in the US). The time is localized - based on your language settings.
+This `setLocalizedStatusBarWithTime` also automatically adds carrier name based on language settings - for example in the USA it is AT&T, in 
 Germany T-Mobile DE and so on. Feel free to create pull request with carrier info for other countries / languages, there is only few 
 of them now.
 
@@ -83,17 +83,17 @@ You can use additional methods to fine tune your status bar. There are methods l
 
 ```
 
-## Don't forgot...
+## Don't forget...
 To remove this module from production build. Not only your customers will not be happy with status bar with strange carrier info and
 "frozen" wrong time, but it will also hardly goes through App Store review. We added compilation warning, when this class is used. Ideally, 
-create different target sdasdfor screenshot creation or at least `IFDEF` this class.
+create different target for screenshot creation or at least `IFDEF` this class.
 
 ## Carrier info for my country is not included?
-Feel free to add new language to the project and then add fakeCarrier key to FakeiOSLocalized.strings. Then send me pull request new country
-will be supported in the new release.
+Feel free to add a new language to the project and then add fakeCarrier key to FakeiOSLocalized.strings. New country
+will be supported in a new release after merging the pull request.
 
 ## Credits
 The core of the status bar code was used from https://gist.github.com/0xced/3035167 Copyright (c) 2012-2013 Cédric Luthi / @0xced. I also 
-used mofied version with additional methods from https://github.com/ksuther/StatusBarCustomization.git and fixed it to work with latest iOS.
+used modified version with additional methods from https://github.com/ksuther/StatusBarCustomization.git and fixed it to work with the latest iOS.
 
-More info also on my blog post: http://www.tappytaps.com/blog/developer/nice-status-bar-for-app-store-screenshots/
+More info also in my blog post: http://www.tappytaps.com/blog/developer/nice-status-bar-for-app-store-screenshots/
