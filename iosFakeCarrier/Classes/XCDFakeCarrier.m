@@ -53,9 +53,15 @@ typedef struct {
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDate* dateTime = [calendar dateFromComponents:time];
     [self setFakeTime:[NSDateFormatter localizedStringFromDate:dateTime dateStyle:NSDateFormatterNoStyle timeStyle:NSDateFormatterShortStyle]];
-    [self setFakeCarrier:NSLocalizedStringFromTableInBundle(@"fakeCarrier", @"FakeiOSLocalized", [self bundle], @"")];
-    [self setNetworkType:2];
-    [self setCellStrength:5];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self setNetworkType:8];
+        [self setFakeCarrier:@"iPad"];
+        [self setWiFiStrength:3];
+    } else {
+        [self setFakeCarrier:NSLocalizedStringFromTableInBundle(@"fakeCarrier", @"FakeiOSLocalized", [self bundle], @"")];
+        [self setNetworkType:2];
+        [self setCellStrength:5];
+    }
     
 }
 

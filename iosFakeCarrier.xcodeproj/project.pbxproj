@@ -48,6 +48,9 @@
 		E79748571A14D3E200D3B0BB /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/FakeiOSLocalized.strings; sourceTree = "<group>"; };
 		E79748581A14D3E200D3B0BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/FakeiOSLocalized.strings; sourceTree = "<group>"; };
 		E79748591A14D3E300D3B0BB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/FakeiOSLocalized.strings; sourceTree = "<group>"; };
+		E7B6CCBF1A1A067100A32C2F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/FakeiOSLocalized.strings; sourceTree = "<group>"; };
+		E7B6CCC01A1B8A0200A32C2F /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/FakeiOSLocalized.strings"; sourceTree = "<group>"; };
+		E7B6CCC11A1B8A1800A32C2F /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/FakeiOSLocalized.strings"; sourceTree = "<group>"; };
 		E7BC9ACF1A14FD56004B66F4 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,6 +218,9 @@
 				cs,
 				de,
 				ko,
+				pt,
+				"pt-PT",
+				"pt-BR",
 			);
 			mainGroup = E79748061A14A53600D3B0BB;
 			productRefGroup = E79748101A14A53600D3B0BB /* Products */;
@@ -289,6 +295,9 @@
 				E79748571A14D3E200D3B0BB /* cs */,
 				E79748581A14D3E200D3B0BB /* de */,
 				E79748591A14D3E300D3B0BB /* ko */,
+				E7B6CCBF1A1A067100A32C2F /* pt */,
+				E7B6CCC01A1B8A0200A32C2F /* pt-PT */,
+				E7B6CCC11A1B8A1800A32C2F /* pt-BR */,
 			);
 			name = FakeiOSLocalized.strings;
 			path = Resources;
@@ -380,6 +389,7 @@
 				INFOPLIST_FILE = iosFakeCarrier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -390,6 +400,7 @@
 				INFOPLIST_FILE = iosFakeCarrier/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
