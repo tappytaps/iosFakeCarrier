@@ -62,15 +62,15 @@ typedef struct {
         [self setNetworkType:2];
         [self setCellStrength:5];
     }
-    
+
 }
 
 + (NSBundle *)bundle
 {
     NSBundle *bundle;
-    
+
     NSURL *bundleUrl = [[NSBundle mainBundle] URLForResource:@"iosFakeCarrier" withExtension:@"bundle"];
-    
+
     if (bundleUrl) {
         // Should be, when using cocoapods
         bundle = [NSBundle bundleWithURL:bundleUrl];
@@ -121,11 +121,14 @@ typedef struct {
 
 + (void)load
 {
+
+#if TARGET_IPHONE_SIMULATOR
+
     fakeCarrier = "Carrier";
     fakeTime = "10:21 AM";
-    
+
     fakeItemIsEnabled = [[NSMutableDictionary alloc] init];
-    
+
     BOOL __block success = NO;
     Class UIStatusBarComposedData = objc_getClass("UIStatusBarComposedData");
     SEL selector = NSSelectorFromString(@"rawData");
@@ -145,11 +148,12 @@ typedef struct {
             method_exchangeImplementations(method, fakeMethod);
         }
     }];
-    
+
     if (success)
         NSLog(@"Fake carrier enabled - don't forgot to disable it in production build!");
     else
         NSLog(@"XCDFakeCarrier failed to initialize");
+#endif
 }
 
 - (StatusBarData *)fake_rawData
@@ -159,32 +163,32 @@ typedef struct {
     if (fakeCarrier) {
         strlcpy(rawData->serviceString, fakeCarrier, sizeof(rawData->serviceString));
     }
-    
+
     fakeTime = [fakeTimeS UTF8String];
     if (fakeTime) {
         strlcpy(rawData->timeString, fakeTime, sizeof(rawData->timeString));
     }
-    
+
     if (fakeCellSignalStrength > -1) {
         rawData->itemIsEnabled[3] = 1;
         rawData->gsmSignalStrengthBars = fakeCellSignalStrength;
     } else {
         rawData->itemIsEnabled[3] = 0;
     }
-    
+
     for (NSNumber *key in fakeItemIsEnabled) {
         NSNumber *value = [fakeItemIsEnabled objectForKey:key];
-        
+
         rawData->itemIsEnabled[[key integerValue]] = [value boolValue];
     }
-    
+
     rawData->dataNetworkType = fakeDataNetwork;
-    
+
     rawData->wifiSignalStrengthBars = fakeWifiStrength;
     rawData->batteryCapacity = 100; // Full battery
-    
+
     memset(rawData->batteryDetailString, 0, sizeof(rawData->batteryDetailString)); // Hide battery state strings such as "Not Charging"
-    
+
     return rawData;
 }
 
