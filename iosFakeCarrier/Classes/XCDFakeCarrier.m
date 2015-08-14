@@ -70,7 +70,9 @@ typedef struct {
     NSBundle *bundle;
 
     NSURL *bundleUrl = [[NSBundle mainBundle] URLForResource:@"iosFakeCarrier" withExtension:@"bundle"];
-
+    if (!bundleUrl) {
+      bundleUrl = [[NSBundle bundleForClass:XCDFakeCarrier.class] URLForResource:@"iosFakeCarrier" withExtension:@"bundle"];
+    }
     if (bundleUrl) {
         // Should be, when using cocoapods
         bundle = [NSBundle bundleWithURL:bundleUrl];
