@@ -26,25 +26,13 @@ static NSString* fakeTimeS;
 
 static NSMutableDictionary *fakeItemIsEnabled;
 
+static NSUInteger timeStringOffset;
+static NSUInteger timeStringSize;
+static NSUInteger gsmSignalStrengthBarsOffset;
+static NSUInteger gsmSignalStrengthBarsSize;
+static NSUInteger serviceStringOffset;
+static NSUInteger serviceStringSize;
 
-typedef struct {
-    char itemIsEnabled[25];
-    char timeString[64];
-    int gsmSignalStrengthRaw;
-    int gsmSignalStrengthBars;
-    char serviceString[100];
-    BOOL serviceCrossfadeString[100];
-    BOOL serviceImages[2][100];
-    BOOL operatorDirectory[1024];
-    unsigned int serviceContentType;
-    int wifiSignalStrengthRaw;
-    int wifiSignalStrengthBars;
-    unsigned int dataNetworkType;
-    int batteryCapacity;
-    unsigned int batteryState;
-    BOOL batteryDetailString[150];
-    // ...
-} StatusBarData;
 
 @implementation XCDFakeCarrier
 
@@ -121,6 +109,71 @@ typedef struct {
     [[UIApplication sharedApplication].keyWindow.rootViewController setNeedsStatusBarAppearanceUpdate];
 }
 
+
+
++ (void) load
+{
+    fakeCarrier = "Vodafone";
+    if (!fakeCarrier)
+    {
+        NSLog(@"You must set the FAKE_CARRIER environment variable");
+        return;
+    }
+    fakeTime = "9:41";
+    
+    const Class UIStatusBarComposedData = objc_getClass("UIStatusBarComposedData");
+    const Method rawData = class_getInstanceMethod(UIStatusBarComposedData, sel_getUid("rawData"));
+    const char *typeEncoding = method_getTypeEncoding(rawData);
+    
+    if (typeEncoding)
+    {
+        NSRegularExpression *typeEncodingRegularExpression = [NSRegularExpression regularExpressionWithPattern:@"\\^(\\{\\?=\\[\\d+[Bc]\\]\\[\\d+c\\]ii\\[\\d+c\\])" options:(NSRegularExpressionOptions)0 error:NULL];
+        NSString *typeEncodingString = @(typeEncoding);
+        NSTextCheckingResult *typeEncodingMatch = [typeEncodingRegularExpression firstMatchInString:typeEncodingString options:(NSMatchingOptions)0 range:NSMakeRange(0, typeEncodingString.length)];
+        if (typeEncodingMatch.numberOfRanges > 1)
+        {
+            NSString *partialTypeEncoding = [[typeEncodingString substringWithRange:[typeEncodingMatch rangeAtIndex:1]] stringByAppendingString:@"}"];
+            NSMethodSignature *methodSignature = [NSMethodSignature signatureWithObjCTypes:partialTypeEncoding.UTF8String];
+            NSString *parsedTypeEncoding = methodSignature.debugDescription;
+            NSRegularExpression *parsedTypeEncodingRegularExpression = [NSRegularExpression regularExpressionWithPattern:@"^            memory \\{offset = (\\d+), size = (\\d+)\\}" options:NSRegularExpressionAnchorsMatchLines error:NULL];
+            NSArray<NSTextCheckingResult *> *offsetMatches = [parsedTypeEncodingRegularExpression matchesInString:parsedTypeEncoding options:(NSMatchingOptions)0 range:NSMakeRange(0, parsedTypeEncoding.length)];
+            if (offsetMatches.count == 5)
+            {
+                timeStringOffset =            [[parsedTypeEncoding substringWithRange:[offsetMatches[1] rangeAtIndex:1]] integerValue];
+                timeStringSize =              [[parsedTypeEncoding substringWithRange:[offsetMatches[1] rangeAtIndex:2]] integerValue];
+                gsmSignalStrengthBarsOffset = [[parsedTypeEncoding substringWithRange:[offsetMatches[3] rangeAtIndex:1]] integerValue];
+                gsmSignalStrengthBarsSize =   [[parsedTypeEncoding substringWithRange:[offsetMatches[3] rangeAtIndex:2]] integerValue];
+                serviceStringOffset =         [[parsedTypeEncoding substringWithRange:[offsetMatches[4] rangeAtIndex:1]] integerValue];
+                serviceStringSize =           [[parsedTypeEncoding substringWithRange:[offsetMatches[4] rangeAtIndex:2]] integerValue];
+                
+                BOOL isTimeStringOK = timeStringOffset > 0 && timeStringSize > 0;
+                BOOL isSignalStrengthBarsOK = gsmSignalStrengthBarsOffset > 0 && gsmSignalStrengthBarsSize == sizeof(int);
+                BOOL isServiceStringOK = serviceStringOffset > 0 && serviceStringSize > 0;
+                if (isTimeStringOK && isSignalStrengthBarsOK && isServiceStringOK)
+                {
+                    const SEL fakeSelector = @selector(fake_rawData);
+                    const Method fakeRawData = class_getInstanceMethod(self, fakeSelector);
+                    if (class_addMethod(UIStatusBarComposedData, fakeSelector, method_getImplementation(fakeRawData), typeEncoding))
+                    {
+                        method_exchangeImplementations(rawData, class_getInstanceMethod(UIStatusBarComposedData, fakeSelector));
+                        NSLog(@"Using \"%s\" fake carrier", fakeCarrier);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    
+    NSLog(@"XCDFakeCarrier failed to initialize");
+}
+
+
+
+
+
+
+
+/*
 + (void)load
 {
 
@@ -157,41 +210,69 @@ typedef struct {
         NSLog(@"XCDFakeCarrier failed to initialize");
 #endif
 }
+*/
 
-- (StatusBarData *)fake_rawData
+
+- (void *) fake_rawData
 {
-    StatusBarData *rawData = [self fake_rawData];
+    char *rawData = [self fake_rawData];
+    
     fakeCarrier = [fakeCarrierS UTF8String];
-    if (fakeCarrier) {
-        strlcpy(rawData->serviceString, fakeCarrier, sizeof(rawData->serviceString));
-    }
-
     fakeTime = [fakeTimeS UTF8String];
-    if (fakeTime) {
-        strlcpy(rawData->timeString, fakeTime, sizeof(rawData->timeString));
+    
+    BOOL isEmptyCarrier = [@(fakeCarrier ?: "") stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0;
+    BOOL isEmptyTime = [@(fakeTime ?: "") stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0;
+    
+    if (isEmptyCarrier && isEmptyTime)
+    {
+        bzero(rawData, serviceStringOffset + serviceStringSize);
+        return rawData;
     }
-
-    if (fakeCellSignalStrength > -1) {
-        rawData->itemIsEnabled[3] = 1;
-        rawData->gsmSignalStrengthBars = fakeCellSignalStrength;
-    } else {
-        rawData->itemIsEnabled[3] = 0;
-    }
-
-    for (NSNumber *key in fakeItemIsEnabled) {
-        NSNumber *value = [fakeItemIsEnabled objectForKey:key];
-
-        rawData->itemIsEnabled[[key integerValue]] = [value boolValue];
-    }
-
-    rawData->dataNetworkType = fakeDataNetwork;
-
-    rawData->wifiSignalStrengthBars = fakeWifiStrength;
-    rawData->batteryCapacity = 100; // Full battery
-
-    memset(rawData->batteryDetailString, 0, sizeof(rawData->batteryDetailString)); // Hide battery state strings such as "Not Charging"
-
+    
+    strlcpy(rawData + serviceStringOffset, fakeCarrier, serviceStringSize);
+    
+    if (fakeTime)
+        strlcpy(rawData + timeStringOffset, fakeTime, timeStringSize);
+    
+    int gsmSignalStrengthBars = 5;
+    memcpy(rawData + gsmSignalStrengthBarsOffset, &gsmSignalStrengthBars, gsmSignalStrengthBarsSize);
+    
+    BOOL enableSignalBars = YES;
+    memcpy(rawData + 3, &enableSignalBars, sizeof(enableSignalBars));
+    
+    BOOL enableBatteryLevelPercentage = YES;
+    memcpy(rawData + 8, &enableBatteryLevelPercentage, sizeof(enableBatteryLevelPercentage));
+    
+    /*
+     0  center  Time
+     1  right   Do not Sisturb
+     2  left    Airplane
+     3  left    Signal Bars
+     4  left    Carrier
+     5  left    Wi-Fi
+     6  right   Time
+     7  right   Battery Logo
+     8  right   Battery Level Percentage
+     9  right   Battery Level Percentage
+     10  right   Bluetooth Battery
+     11  right   Bluetooth
+     12  right   TTY
+     13  right   Alarm
+     14  right   Plus
+     15          unknown
+     16  right   Location Service
+     17  right   Rotation Lock
+     18          unknown
+     19  right   AirPlay
+     20  right   Siri
+     21  left    Play
+     22  left    VPN
+     23  left    Call Forward
+     24  left    Network Activity Indicator
+     25  left    Black Square
+     */
     return rawData;
 }
+
 
 @end
