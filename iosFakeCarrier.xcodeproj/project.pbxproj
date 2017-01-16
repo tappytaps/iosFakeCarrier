@@ -27,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E74226031E2CE20000845312 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/FakeiOSLocalized.strings"; sourceTree = "<group>"; };
+		E74226041E2CE20500845312 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/FakeiOSLocalized.strings"; sourceTree = "<group>"; };
 		E797480F1A14A53600D3B0BB /* iosFakeCarrier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosFakeCarrier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E79748131A14A53600D3B0BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E79748141A14A53600D3B0BB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -221,6 +223,8 @@
 				pt,
 				"pt-PT",
 				"pt-BR",
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = E79748061A14A53600D3B0BB;
 			productRefGroup = E79748101A14A53600D3B0BB /* Products */;
@@ -298,6 +302,8 @@
 				E7B6CCBF1A1A067100A32C2F /* pt */,
 				E7B6CCC01A1B8A0200A32C2F /* pt-PT */,
 				E7B6CCC11A1B8A1800A32C2F /* pt-BR */,
+				E74226031E2CE20000845312 /* zh-Hans */,
+				E74226041E2CE20500845312 /* zh-Hant */,
 			);
 			name = FakeiOSLocalized.strings;
 			path = Resources;
