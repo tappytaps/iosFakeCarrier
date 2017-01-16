@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.platform     = "ios"
   s.name         = "iOSFakeCarrier"
-  s.version      = "1.2"
+  s.version      = "1.3"
   s.summary      = "Automatically set carrier info based on locales and other custom settings - usefull for generating nice screenshots"
   s.description  = <<-DESC
                    Small class, that let you change standard iOS status bar information. Works in both simulator and device.
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/sarsonj/iosFakeCarrier.git"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Jindrich Sarson" => "jindra@tappytaps.com" }
-  s.source       = { :git => "https://github.com/sarsonj/iosFakeCarrier.git", :tag => "1.2"}
+  s.source       = { :git => "https://github.com/sarsonj/iosFakeCarrier.git", :tag => "1.3"}
   s.source_files  = "iosFakeCarrier/Classes", "Classes/**/*.{h,m}"
   s.exclude_files = "Classes/Exclude"
   s.resource_bundle = { 'iosFakeCarrier' => 'iosFakeCarrier/Resources/*.lproj' }
